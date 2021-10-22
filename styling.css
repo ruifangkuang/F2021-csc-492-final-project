@@ -24,3 +24,8 @@ img.persona {
   border: 1px solid gray;
   box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
 }
+
+.ui-screens-wrapper {
+  display: grid;
+  grid-template-columns: 25% 25% 25%;
+}
