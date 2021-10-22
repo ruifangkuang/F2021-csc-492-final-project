@@ -21,4 +21,6 @@ img.persona {
 .storyboard {
   width:80%;
   margin: 10px;
+  border: 1px solid gray;
+  box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
 }
