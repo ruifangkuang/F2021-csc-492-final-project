@@ -1,4 +1,5 @@
 from flask import Flask, render_template
+from flask_sqlalchemy import SQLAlchemy
 
 app = Flask(__name__)
 
@@ -7,11 +8,18 @@ app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:////tmp/test.db'
 db = SQLAlchemy(app)
 
 @app.route("/")
-def hello_world(name=None):
+def home(name=None):
     """
     The RISE ABOVE home page.
     """
     return render_template('home.html', name=name)
+
+@app.route("/courses")
+def hello_world(name=None):
+    """
+    The RISE ABOVE home page.
+    """
+    return render_template('course_home.html', name=name)
 
 
 @app.route('/login', methods=['POST', 'GET'])

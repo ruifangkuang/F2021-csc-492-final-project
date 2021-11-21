@@ -1,7 +1,11 @@
 * {}
 
+body {
+  background-color: #2bb2bcac;
+}
+
 #navbar {
-    background-color: linear-gradient(to right, rgb(31, 64, 55), rgb(153, 242, 200));
+    background-color: #1f858d;
 }
 
 /* NOTE: Sidebar code comes from: https://www.w3schools.com/howto/howto_css_sidebar_responsive.asp */
