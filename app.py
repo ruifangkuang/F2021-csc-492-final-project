@@ -43,7 +43,7 @@ class Video(db.Model):
         return self.title
 
 
-class ProgressRecord(db.Model)
+class ProgressRecord(db.Model):
     """
     Attributes:
         Date/time
