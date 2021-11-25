@@ -17,7 +17,7 @@
     <title>RISE ABOVE</title>
   </head>
   <body>
-    <nav class="navbar navbar-expand-lg navbar-light bg-light" id="navbar">
+    <nav class="navbar navbar-expand-lg navbar-dark p-3" id="navbar">
         <div class="container-fluid">
             <a class="navbar-brand" href="#">RISE ABOVE</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -57,22 +57,48 @@
         </div>
     </nav>
 
-    <div class="">
-        <div class="row">
-            <div class="col-lg-2">
-                <div class="sidebar">
-                    <!-- NOTE: Define links to individual pages here. -->
-                    <a class="active" href="#home">Courses</a>
-                    <a href="#">Progress Dashboard</a>
-                  </div>
-            </div>
-            <div class="col-lg-10">
-                <div class="content mt-5">
-                    <h1>Hello, world.</h1>
-                </div>
-            </div>
-        </div>
+<div class="row account-page-body">
+  <div class="col-lg-6 offset-lg-3">
+    <h4 class="text-center m-4">Sign in</h4>
+
+    <div class="card">
+      <div class="card-header">
+        Philomath
+      </div>
+      <div class="card-body mt-3 mb-3 p-3 mx-auto">
+
+        <!-- NOTE: Example form from Booststrap 5 documentation -->
+        <form method="POSTS" action="#" >
+          <div class="mb-3">
+            <label for="exampleInputEmail1" class="form-label">Email address</label>
+            <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
+            <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div>
+          </div>
+          <div class="mb-3">
+            <label for="exampleInputPassword1" class="form-label">Password</label>
+            <input type="password" class="form-control" id="exampleInputPassword1">
+          </div>
+          <div class="mb-3 form-check">
+            <input type="checkbox" class="form-check-input" id="exampleCheck1">
+            <label class="form-check-label" for="exampleCheck1">Check me out</label>
+          </div>
+
+          <!-- NOTE: Switch these around when form actually works, submits a POST request -->
+          <!-- <button type="submit" class="btn btn-primary" >Submit</button> -->
+          <a class="btn btn-primary" href="{{ url_for('courses') }}" >Submit</a>
+        </form>
+
+      </div>
+
+      <div class="card-footer text-muted">
+        <span>Don't have an account yet? Please <a href="#" class="link-secondary">sign up</a>.</span> 
+
+      </div>
+
     </div>
+  </div>
+
+</div>
 
 
     <!-- Optional JavaScript; choose one of the two! -->

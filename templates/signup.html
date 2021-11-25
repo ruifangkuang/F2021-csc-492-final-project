@@ -1,0 +1,53 @@
+{% extends "clarity/base.html" %}
+
+{% load i18n %}
+{% load account socialaccount %}
+
+{% block head_title %}{% trans "Signup" %}{% endblock %}
+
+{% block content %}
+
+{% include 'philomath/components/navbar.html' %}
+
+
+<div class="row account-page-body">
+  <div class="col-lg-6 offset-lg-3">
+
+    <h4 class="text-center m-4">Sign up</h4>
+
+    <div class="card">
+      <div class="card-header">
+        Philomath
+      </div>
+      <div class="card-body mt-3 mb-3 p-3 mx-auto">
+
+        <form class="signup" id="signup_form" method="post" action="{% url 'account_signup' %}">
+          {% csrf_token %}
+          {{ form.as_p }}
+          {% if redirect_field_value %}
+            <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
+          {% endif %}
+          <button type="submit" class="btn btn-sm btn-block btn-dark form-control signup-btn">{% trans "Sign Up" %} &raquo;</button>
+        </form>
+
+        <br><small>OR SIGN UP USING AN EXISTING SERVICE</small><br>
+
+        <a class="btn btn-danger form-control signup-btn" href='{% provider_login_url "google" %}'><i class="fab fa-google"></i> Google</a>
+
+      </div>
+
+      <div class="card-footer text-muted">
+        <span>Already have an account? Then please <a href="{{ login_url }}" class="link-secondary">sign in</a>.</span>
+      </div>
+
+    </div>
+
+  </div>
+</div>
+
+
+
+
+
+
+{% endblock %}

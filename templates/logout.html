@@ -1,0 +1,41 @@
+{% extends "clarity/base.html" %}
+
+{% load i18n %}
+
+{% block head_title %}{% trans "Sign Out" %}{% endblock %}
+
+{% block content %}
+
+<div class="row account-page-body">
+  <div class="col-lg-6 offset-lg-3">
+    <h4 class="text-center m-4">Sign out</h4>
+
+    <div class="card">
+      <div class="card-header">
+        Are you sure you want to sign out?
+      </div>
+      <div class="card-body mt-3 mb-3 p-3 mx-auto">
+    
+        <form method="post" action="{% url 'account_logout' %}">
+          {% csrf_token %}
+          {% if redirect_field_value %}
+          <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}"/>
+          {% endif %}
+          <button type="submit" class="btn btn-danger form-control">Yes, sign out.</button>
+        </form>
+     
+      </div>
+  </div>
+</div>
+
+
+
+  <!-- <div class="card-footer text-muted">
+    <span>Don't have an account yet? Please <a href="{% url 'account_signup' %}" class="link-secondary">sign up</a>.</span> | <a class="button link-secondary" href="{% url 'account_reset_password' %}">{% trans "Forgot Password?" %}</a><br>
+
+  </div> -->
+
+</div>
+
+
+{% endblock %}
