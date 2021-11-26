@@ -85,11 +85,11 @@ def rating(name=None):
 
 
 @app.route("/courses")
-def courses(name=None):
+def courses():
     """
     The RISE ABOVE home page.
     """
-    return render_template('courses.html', name=name)
+    return render_template('courses.html')
 
 
 @app.route('/login', methods=['POST', 'GET'])

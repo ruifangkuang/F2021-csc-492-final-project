@@ -5,20 +5,43 @@
 {% block course_content %}
 
 
-<div class="row">
-    <div class="col-lg-8 offset-lg-3">
-            <div class="courses-list p-5">
+<div class="col-lg-10">
+    <div class="content mt-5 d-flex flex-row">
+        <div class="col-lg-8 d-flex flex-column">
+            <video width="320" height="240" class="responsive-iframe"  controls>
+                <source src="{{url_for('static', filename='videos/deepbreathing_ex.mp4')}}" 
+                        type="video/mp4">
+            </video>
+            <div class="border-bottom pt-4"></div>
+            <p class="para pt-3">In this lesson, you will learn deep breathing exercises for managing stress.</p>
 
-                {%for i in range(0, 4)%}
-                    <div class="course-card bg-light mb-2">
-                        <div class="course-card-number lead pt-5">
-                            {{ i }}
+        </div>
+        <div class="col-lg-3 p-4 pt-0 d-flex flex-column">
+            <h2 style="font-family:Poppins;">Next</h2>
+            <ul>
+                <li>
+                    <div class="video-list d-flex flex-row">
+                        <img class="icon" src="{{url_for('static', filename='images/icons/icon1.png')}}">
+                        <div class="lesson-desc">
+                            <p>Lesson 2</p>
+                            <small>Lesson2 | 11 mins</small>
                         </div>
                     </div>
-                {%endfor%}
-
-            </div>
+                </li>
+                <li></li>
+                <li></li>
+                <li></li>
+            </ul>
+            
+            <div class="next-btn pt-3">
+                <a class="btn btn-secondary" href="" id="next-button" role="button">NEXT VIDEO</a>
+            </div> 
+        </div>
     </div>
 </div>
 
 {% endblock course_content %}
+
+
+
+
