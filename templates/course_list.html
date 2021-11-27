@@ -1,13 +1,32 @@
 
-
 {% extends "course_base.html" %}
 
 {% block course_content %}
 
 
+<div class="row">
+    <div class="col-lg-8 offset-lg-3">
+            <div class="courses-list p-5">
+
+                {% for course in context.courses %}
+                    <div class="course-card bg-light mb-2">
+                        <div class="clearfix">
+                            <div class="course-card-number lead pt-5 float-start">
+                                {{ loop.index0 + 1 }}
+                                <a class="stretched-link" href="{{ url_for('courses') }}"></a>
+                            </div>
+
+                            <div class="p-2">
+                                <h4 class="lead" style="font-size: 1.5rem;">{{ course.name }}</h4>
+                                <p>{{ course.description }}</p>
+                            </div>
+                        </div>
+
+                    </div>
+                {% endfor %}
+
+            </div>
+    </div>
+</div>
 
 {% endblock course_content %}
-
-
-
-

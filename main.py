@@ -1,67 +1,21 @@
-from flask import Flask, render_template
+import os
+
+from flask import Flask, render_template, request, redirect, url_for
 from flask_sqlalchemy import SQLAlchemy
-from datetime import datetime
+from flask_migrate import Migrate
+
 
 app = Flask(__name__)
 
-# Setup SQL databasee
-# app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:////tmp/test.db'
-# db = SQLAlchemy(app)
+# Setup PostgreSQL databasee
+app.config['SQLALCHEMY_DATABASE_URI'] = os.environ('DATABASE_URL', default='postgresql:///rise_above_dev')
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False # NOTE: Avoids error. Weird artifact of Flask.
 
-# Model schema
+db = SQLAlchemy(app)
 
-# class Course(db.Model):
-#     """
-#     Attributes:
-#         Name
-#         Photo
-#         Description
-#     """
-#     id = db.Column(db.Integer, primary_key=True)
-#     name = db.Column(db.String(80), nullable=False)
-#     # photo = db.Column(db.Photo, nullable=False)
-#     description = db.Column(db.Text, nullable=False)
+migrate = Migrate(app, db)
 
-#     def __str__(self):
-#         return self.name
-
-
-# class Video(db.Model):
-#     """
-#     Attributes:
-#         Title
-#         Link to video, or video file
-#         Course (relationship)
-#     """
-#     id = db.Column(db.Integer, primary_key=True)
-#     title = db.Column(db.String(100), nullable=False)
-#     link = db.Column(db.String(150), nullable=False)
-#     course_id = db.Column(db.Integer, db.ForeignKey('course.id'))
-#     course = db.relationship('Course', backref=db.backref('videos', lazy=True))
-
-#     def __str__(self):
-#         return self.title
-
-
-# class ProgressRecord(db.Model):
-#     """
-#     Attributes:
-#         Date/time
-#         Stress rating
-#         Positive thinking rating
-#         Recognizing stigma rating
-#         Problem solving rating
-#         User
-#     """
-#     date_taken = db.Column(db.DateTime, nullable=False,
-#                          default=datetime.utcnow)
-#     stress_rating = db.Column(db.Integer, nullable=False)
-#     positive_thinking_rating = db.Column(db.Integer, nullable=False)
-#     recognize_stigma_rating = db.Column(db.Integer, nullable=False)
-#     problem_solving_rating = db.Column(db.Integer, nullable=False)
-#     # user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
-#     # user = db.relationship('User', backref=db.backref('progress_records', lazy=True))
-
+from models import ProgressRecord, Course
 
 @app.route("/")
 def home(name=None):
@@ -73,21 +27,52 @@ def home(name=None):
 
 
 @app.route("/rating")
-def rating(name=None):
+def rating(name=None, methods=['GET', 'POST']):
     """
     Page for the user to rate themself.
     """
-    logged_in = False
-    if not logged_in: # TODO: check if user is actually logged in here.
-        return render_template('login.html', name=name)
+    if request.method == 'POST':
+        # Get the data from the form
+        stress_rating = request.form.get('stress_rating')
+        positive_thinking_rating = request.form.get('positive_thinking_rating')
+        recognize_stigma_rating = request.form.get('recognize_stigma_rating')
+        problem_solving_rating = request.form.get('problem_solving_rating')
+
+        # Create a new record
+        record = ProgressRecord(stress_rating=stress_rating,
+                                positive_thinking_rating=positive_thinking_rating,
+                                recognize_stigma_rating=recognize_stigma_rating,
+                                problem_solving_rating=problem_solving_rating)
+
+        # Add the record to the database
+        db.session.add(record)
+        db.session.commit()
+
+        return redirect(url_for('course_list'))
         
+    elif request.method == 'POST':
+        logged_in = False
+        if not logged_in: # TODO: check if user is actually logged in here.
+            return render_template('login.html', name=name)
+            
     return render_template('rating.html', name=name)
+
+
+@app.route("/course-list")
+def course_list():
+    """
+    View for rendering the course list.
+
+    NOTE: This should be sorted by the impact that the course is expected to have on the user.
+    """
+    courses = Course.query.all()
+    return render_template('course_list.html', context={'courses':courses})
 
 
 @app.route("/courses")
 def courses():
     """
-    The RISE ABOVE home page.
+    The page for rendering a particular course.
     """
     return render_template('courses.html')
 
