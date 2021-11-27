@@ -119,6 +119,39 @@ iframe, video {
     height: 1000px;
     
   }
+
+  .para{
+    /* position: absolute; */
+    width: 510.31px;
+    height: 44px;
+    /* left: 386px;
+    top: 608px; */
+
+    font-family: Poppins;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 15px;
+    line-height: 22px;
+    color: #181B1A;
+  }
+
+/* Responsive video frame */
+  .responsive-iframe{
+    position: relative;
+    /* top:10%; */
+    left:0;
+    bottom: 0;
+    right:0;
+    width:100%;
+    height:50%;
+    border: none;
+}
+
+.next-btn{
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
   
   /* On screens that are less than 700px wide, make the sidebar into a topbar */
   @media screen and (max-width: 700px) {
