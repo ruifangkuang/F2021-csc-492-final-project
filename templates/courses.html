@@ -8,7 +8,7 @@
 <div class="col-lg-10">
     <div class="content mt-5 d-flex flex-row">
         <div class="col-lg-8 d-flex flex-column">
-            <video class="pl-2"width="500" height="440" class="responsive-iframe"  controls>
+            <video class="pl-2" class="responsive-iframe"  controls>
                 <source src="{{url_for('static', filename='videos/deepbreathing_ex.mp4')}}" 
                         type="video/mp4">
             </video>
@@ -18,17 +18,25 @@
         </div>
         <div class="col-lg-3 p-4 pt-0 d-flex flex-column">
             <h2 style="font-family:Poppins;">Next</h2>
-            <ul>
+            <ul style="list-style: none;">
                 <li>
-                    <div class="video-list d-flex flex-row">
-                        <img class="icon" src="{{url_for('static', filename='images/icons/icon1.png')}}">
+                    <div class="video-list d-flex flex-row" style="width: 200px;">
+                        <img class="icon" src="{{url_for('static', filename='images/icons/icon1.png')}}" width=40 height=40>
+                        <div class="lesson-desc">
+                            <p>Lesson 1</p>
+                            <small>Lesson2 | 11 mins</small>
+                        </div> 
+                    </div>
+                </li>
+                <li>
+                    <div class="video-list d-flex flex-row" style="width: 200px;">
+                        <img class="icon" src="{{url_for('static', filename='images/icons/icon2.png')}}" width=40 height=40>
                         <div class="lesson-desc">
                             <p>Lesson 2</p>
                             <small>Lesson2 | 11 mins</small>
-                        </div>
+                        </div> 
                     </div>
                 </li>
-                <li></li>
                 <li></li>
                 <li></li>
             </ul>
