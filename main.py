@@ -12,8 +12,9 @@ from flask_migrate import Migrate
 app = Flask(__name__)
 
 # SQLAlchemy stuff. Setup PostgreSQL databasee
-app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URL', 'postgresql:///rise_above_dev').replace('postgres://', 'postgresql://')
+app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URL', 'postgres://xmxcxgpzeokbkp:8ea257b512ff268ebbd5475687c56236fd736c7d42e09439d89356ea7cf95906@ec2-3-230-199-240.compute-1.amazonaws.com:5432/d5gcfo146dri26').replace('postgres://', 'postgresql://')
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False # NOTE: Avoids error. Weird artifact of Flask.
+app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY', '') # Needed for production Flask applications.
 
 db = SQLAlchemy(app)
 
