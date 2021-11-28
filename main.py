@@ -1,13 +1,17 @@
 import os
 
 from flask import Flask, render_template, request, redirect, url_for
+
+from flask_admin import Admin
+from flask_admin.contrib.sqla import ModelView
+
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 
 
 app = Flask(__name__)
 
-# Setup PostgreSQL databasee
+# SQLAlchemy stuff. Setup PostgreSQL databasee
 app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URL', 'postgresql:///rise_above_dev').replace('postgres://', 'postgresql://')
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False # NOTE: Avoids error. Weird artifact of Flask.
 
@@ -16,6 +20,14 @@ db = SQLAlchemy(app)
 migrate = Migrate(app, db)
 
 from models import ProgressRecord, Course
+
+# Flask-admin stuff
+app.config['FLASK_ADMIN_SWATCH'] = 'cerulean' # set optional bootswatch theme
+admin = Admin(app, name='RISE ABOVE Admin', template_mode='bootstrap4')
+# -- Registering Flask-admin administrative views
+admin.add_view(ModelView(ProgressRecord, db.session))
+admin.add_view(ModelView(Course, db.session))
+
 
 @app.route("/")
 def home(name=None):
