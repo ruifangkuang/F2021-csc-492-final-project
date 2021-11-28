@@ -1,8 +1,17 @@
 from datetime import datetime
+from flask_login import UserMixin
 
 from main import db
 
 # Model schema
+
+class User(UserMixin, db.Model):
+    id = db.Column(db.Integer, primary_key=True) # primary keys are required by SQLAlchemy
+    email = db.Column(db.String(100), unique=True)
+    password = db.Column(db.String(100))
+    name = db.Column(db.String(1000))
+    progress_records = db.relationship('ProgressRecord', backref='progress_record', lazy=True)
+
 
 class Course(db.Model):
     """
@@ -54,5 +63,5 @@ class ProgressRecord(db.Model):
     positive_thinking_rating = db.Column(db.Integer, nullable=False)
     recognize_stigma_rating = db.Column(db.Integer, nullable=False)
     problem_solving_rating = db.Column(db.Integer, nullable=False)
-    # user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
-    # user = db.relationship('User', backref=db.backref('progress_records', lazy=True))
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'),
+                        nullable=False)

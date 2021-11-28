@@ -1,43 +1,46 @@
-{% extends "clarity/base.html" %}
-
-{% load i18n %}
-{% load account socialaccount %}
-
-{% block head_title %}{% trans "Signup" %}{% endblock %}
+{% extends 'base.html' %}
 
 {% block content %}
-
-{% include 'philomath/components/navbar.html' %}
-
 
 <div class="row account-page-body">
   <div class="col-lg-6 offset-lg-3">
 
-    <h4 class="text-center m-4">Sign up</h4>
-
-    <div class="card">
+    <div class="card mt-5">
       <div class="card-header">
-        Philomath
+        Sign up
       </div>
       <div class="card-body mt-3 mb-3 p-3 mx-auto">
 
-        <form class="signup" id="signup_form" method="post" action="{% url 'account_signup' %}">
-          {% csrf_token %}
-          {{ form.as_p }}
-          {% if redirect_field_value %}
-            <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
-          {% endif %}
-          <button type="submit" class="btn btn-sm btn-block btn-dark form-control signup-btn">{% trans "Sign Up" %} &raquo;</button>
+        <form class="signup" id="signup_form" method="post" action="{{ url_for('signup') }}">
+          {% with messages = get_flashed_messages() %}
+            {% if messages %}
+                <div class="alert alert-warning">
+                    {{ messages[0] }}
+                </div>
+            {% endif %}
+          {% endwith %}
+          <div class="mb-3">
+            <label for="exampleInputEmail1" class="form-label">Email address</label>
+            <input type="email" class="form-control" name="email" id="exampleInputEmail1" aria-describedby="emailHelp">
+            <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div>
+          </div>
+          <div class="mb-3">
+            <label for="exampleInputPassword1" class="form-label">Password</label>
+            <input type="password" class="form-control" name="password" id="exampleInputPassword1">
+          </div>
+          <div class="mb-3 form-check">
+            <input type="checkbox" name="remember" class="form-check-input" id="exampleCheck1">
+            <label class="form-check-label" for="exampleCheck1">Remember</label>
+          </div>
+
+          <!-- NOTE: Switch these around when form actually works, submits a POST request -->
+          <button type="submit" class="btn btn-primary" >Submit</button>
+          <!-- <a class="btn btn-primary" href="{{ url_for('courses') }}" >Submit</a> -->
         </form>
-
-        <br><small>OR SIGN UP USING AN EXISTING SERVICE</small><br>
-
-        <a class="btn btn-danger form-control signup-btn" href='{% provider_login_url "google" %}'><i class="fab fa-google"></i> Google</a>
-
       </div>
 
       <div class="card-footer text-muted">
-        <span>Already have an account? Then please <a href="{{ login_url }}" class="link-secondary">sign in</a>.</span>
+        <span>Already have an account? Then please <a href="{{ url_for('login') }}" class="link-secondary">sign in</a>.</span>
       </div>
 
     </div>

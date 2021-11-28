@@ -2,27 +2,29 @@
 {% block content %}
     <div class="row">
         <div class="col-lg-8 offset-lg-2 text-center mt-4">
-            <div class="slidecontainer">
-                <p>Slider 1:</p>
-                <input id="slider1" type="range" min="0" max="10" value="5" class="slider">
-                <p id="demo1"></p>
-                <br>
-                <p>Slider 2:</p>
-                <input id="slider2" type="range" min="0" max="10" value="5" class="slider">
-                <p id="demo2"></p>
-                <br>
-                <p>Slider 3:</p>
-                <input id="slider3" type="range" min="0" max="10" value="5" class="slider">
-                <p id="demo3"></p>
-                <br>
-                <p>Slider 4:</p>
-                <input id="slider4" type="range" min="0" max="10" value="5" class="slider">
-                <p id="demo4"></p>
+            <form method="POST" action="{{ url_for('rating') }}">
+                <div class="slidecontainer">
+                    <p>How stressed do you feel lately (1-10)?</p>
+                    <input id="slider1" type="range" min="0" max="10" value="5" class="slider" name="stress_rating">
+                    <p id="demo1"></p>
+                    <br>
+                    <p>How content are you with the way your life if going (1-10)?</p>
+                    <input id="slider2" type="range" min="0" max="10" value="5" class="slider" name="positive_thinking_rating">
+                    <p id="demo2"></p>
+                    <br>
+                    <p>How highly do other people perceive of you (1-10)?</p>
+                    <input id="slider3" type="range" min="0" max="10" value="5" class="slider" name="recognize_stigma_rating">
+                    <p id="demo3"></p>
+                    <br>
+                    <p>How well can you solve problems?</p>
+                    <input id="slider4" type="range" min="0" max="10" value="5" class="slider" name="problem_solving_rating">
+                    <p id="demo4"></p>
 
-                <br>
-                <a href="{{ url_for('course_list') }}" class="btn btn-lg btn-outline-dark mt-5 shadow">CONTINUE</a>
+                    <br>
 
-            </div>
+                    <button type="submit" class="btn btn-lg btn-outline-dark mt-5 shadow" >Submit</button>
+                </div>
+            </form>
         </div>
     </div>
 

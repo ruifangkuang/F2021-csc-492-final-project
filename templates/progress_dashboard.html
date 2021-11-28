@@ -1,0 +1,15 @@
+
+{% extends "course_base.html" %}
+
+{% block course_content %}
+
+
+<div class="row">
+    <div class="col-lg-8 offset-lg-3">
+        <div class="card p-3 mt-5">
+            {{ plot|safe }}
+        </div>
+    </div>
+</div>
+
+{% endblock course_content %}

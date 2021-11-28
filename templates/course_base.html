@@ -9,7 +9,7 @@
         <div class="sidebar">
             <!-- NOTE: Define links to individual pages here. -->
             <a class="active" href="{{ url_for('course_list') }}">Courses</a>
-            <a href="#">Progress Dashboard</a>
+            <a href="{{ url_for('progress_dashboard') }}">Progress Dashboard</a>
             </div>
     </div>
     {% block course_content %}
