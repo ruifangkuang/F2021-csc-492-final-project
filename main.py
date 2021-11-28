@@ -149,7 +149,8 @@ def signup():
         db.session.add(new_user)
         db.session.commit()
 
-        login_user(user, remember=remember)
+        login_user(new_user, remember=remember)
+        
         return redirect(url_for('rating')) # User just created a new account. Need initial rating.
 
     # User wants to GET the signup page, so we just render the template
