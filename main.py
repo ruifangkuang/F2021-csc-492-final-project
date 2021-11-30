@@ -18,7 +18,10 @@ app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URL', 'postgres
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False # NOTE: Avoids error. Weird artifact of Flask.
 app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY', '') # Needed for production Flask applications.
 
+
 db = SQLAlchemy(app)
+
+from models import ProgressRecord, Course, User, Video
 
 migrate = Migrate(app, db)
 
@@ -26,7 +29,6 @@ login_manager = LoginManager()
 login_manager.login_view = 'login'
 login_manager.init_app(app)
 
-from models import ProgressRecord, Course, User
 
 @login_manager.user_loader
 def load_user(user_id):
@@ -40,6 +42,7 @@ admin = Admin(app, name='RISE ABOVE Admin', template_mode='bootstrap4')
 admin.add_view(ModelView(ProgressRecord, db.session))
 admin.add_view(ModelView(Course, db.session))
 admin.add_view(ModelView(User, db.session))
+admin.add_view(ModelView(Video, db.session))
 
 
 # Routes and views...
@@ -61,7 +64,7 @@ def progress_dashboard(name=None):
     """
     # TODO: Query database, built dataframe build plot and visualize.
     plot = create_progress_chart(current_user, db)
-    return render_template('progress_dashboard.html', plot=plot)
+    return render_template('progress_dashboard.html', plot=plot, active='progress')
 
 
 @app.route("/rating", methods=['GET', 'POST'])
@@ -109,17 +112,56 @@ def course_list():
     patient = current_user # NOTE: Use this to determine the order of effective each course should be to the patient.
     
     # TODO: Get the courses in order of applicability based on the patient's latest rating.
+    latest_rating = ProgressRecord.query.filter_by(user_id=patient.id).order_by(ProgressRecord.record_id.desc()).first()
+    rating_values = {'stress_rating': latest_rating.stress_rating, 'positive_thinking_rating': latest_rating.positive_thinking_rating,
+                     'recognize_stigma_rating': latest_rating.recognize_stigma_rating, 'problem_solving_rating': latest_rating.problem_solving_rating}
+    print(rating_values)
 
-    return render_template('course_list.html', context={'courses':courses})
+    key_to_course_map = {
+        'stress_rating': Course.query.filter_by(name='Stress Management').first(),
+        'positive_thinking_rating': Course.query.filter_by(name='Positive Thinking').first(),
+        'recognize_stigma_rating': Course.query.filter_by(name='Recognizing Stigma').first(),
+        'problem_solving_rating': Course.query.filter_by(name='Problem Solving').first()
+    }
+
+    sorted_values = sorted(rating_values, key=rating_values.get)       
+    print(sorted_values) 
+
+    top_course = key_to_course_map[sorted_values[-1]]
+    second_course = key_to_course_map[sorted_values[-2]]
+    third_course = key_to_course_map[sorted_values[-3]]
+    fourth_course = key_to_course_map[sorted_values[-4]]
+
+    courses_sorted = [top_course, second_course, third_course, fourth_course]
+    print("FINAL PRODUCT = ", courses_sorted)
+    return render_template('course_list.html', context={'courses':courses_sorted}, active='courses')
 
 
-@app.route("/courses")
-@login_required
-def courses():
+@app.route("/courses/<int:course_id>/<video_id>" , methods=['GET'])
+def courses(course_id, video_id):
     """
     The page for rendering a particular course.
     """
-    return render_template('courses.html')
+    if not current_user.is_authenticated:
+        return redirect(url_for('login'))
+        
+    # course_id = request.args.get('course_id', type=int)
+    c = Course.query.get(course_id)
+    print("COURSE = ", c.course_id)
+
+    # The main video, which should be playing by default.
+    # video_id = request.args.get('video_id', default=None, type=int)
+    print("VIDEO ID = ", video_id)
+    if video_id is not None:
+        video = Video.query.filter_by(course_id = c.course_id, id=video_id).first()
+    else:
+        video = Video.query.filter_by(course_id=c.course_id).first()
+
+    print("VIDEO = ", video.course_id)
+
+    course_videos_list = Video.query.filter_by(course_id=c.course_id).filter(id != video.id).all()
+
+    return render_template('courses.html', context={'c': c, 'v': video, 'course_videos_list': course_videos_list}, active='courses')
 
 
 @app.route('/signup', methods=['GET', 'POST'])

@@ -12,6 +12,19 @@ class User(UserMixin, db.Model):
     name = db.Column(db.String(1000))
     progress_records = db.relationship('ProgressRecord', backref='progress_record', lazy=True)
 
+    # Course rankings.
+    top_course_id = db.Column(db.Integer, db.ForeignKey('course.course_id'))
+    top_course = db.relationship('Course', backref=db.backref('top_course', uselist=False), foreign_keys=[top_course_id])
+
+    second_course_id = db.Column(db.Integer, db.ForeignKey('course.course_id'))
+    second_course = db.relationship('Course', backref=db.backref('second_course', uselist=False), foreign_keys=[second_course_id])
+
+    third_course_id = db.Column(db.Integer, db.ForeignKey('course.course_id'))
+    third_course = db.relationship('Course', backref=db.backref('third_course', uselist=False), foreign_keys=[third_course_id])
+
+    fourth_course_id = db.Column(db.Integer, db.ForeignKey('course.course_id'))
+    fourth_course = db.relationship('Course', backref=db.backref('fourth_course', uselist=False), foreign_keys=[fourth_course_id])
+
 
 class Course(db.Model):
     """
@@ -41,6 +54,7 @@ class Video(db.Model):
     link = db.Column(db.String(150), nullable=False)
     course_id = db.Column(db.Integer, db.ForeignKey('course.course_id'))
     course = db.relationship('Course', backref=db.backref('videos', lazy=True))
+    description = db.Column(db.Text, nullable=True)
 
     def __str__(self):
         return self.title

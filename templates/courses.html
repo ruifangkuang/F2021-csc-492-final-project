@@ -6,47 +6,41 @@
 
 
 <div class="col-lg-10">
-    <div class="content mt-5 d-flex flex-row">
-        <div class="col-lg-8 d-flex flex-column">
-            <video class="pl-2" class="responsive-iframe"  controls>
-                <source src="{{url_for('static', filename='videos/deepbreathing_ex.mp4')}}" 
-                        type="video/mp4">
-            </video>
-            <div class="border-bottom pt-4"></div>
-            <p class="para pt-3">In this lesson, you will learn deep breathing exercises for managing stress.</p>
+    <div class="row">
 
-        </div>
-        <div class="col-lg-3 p-4 pt-0 d-flex flex-column">
-            <h2 style="font-family:Poppins;">Next</h2>
-            <ul style="list-style: none;">
-                <li>
-                    <div class="video-list d-flex flex-row" style="width: 200px;">
-                        <img class="icon" src="{{url_for('static', filename='images/icons/icon1.png')}}" width=40 height=40>
-                        <div class="lesson-desc">
-                            <p>Lesson 1</p>
-                            <small>Lesson2 | 11 mins</small>
-                        </div> 
-                    </div>
-                </li>
-                <li>
-                    <div class="video-list d-flex flex-row" style="width: 200px;">
-                        <img class="icon" src="{{url_for('static', filename='images/icons/icon2.png')}}" width=40 height=40>
-                        <div class="lesson-desc">
-                            <p>Lesson 2</p>
-                            <small>Lesson2 | 11 mins</small>
-                        </div> 
-                    </div>
-                </li>
-                <li></li>
-                <li></li>
-            </ul>
-            
-            <div class="next-btn pt-3">
-                <a class="btn btn-secondary" href="" id="next-button" role="button">NEXT VIDEO</a>
-            </div> 
+        <div class="content mt-5 d-flex flex-row">
+            <div class="col-lg-8 p-5">
+                <iframe width="100%" height="315" src="{{ context.v.link }}" title="YouTube
+                    video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                <div class="border-bottom pt-4"></div>
+                <h4 class="lead mt-3">{{ context.v.title }}</h4>
+                <p class="pt-3">{{ context.v.description }}</p>
+
+            </div>
+            <div class="col-lg-4 pt-5">
+                <p>Coming up <i class="fas fa-question-circle" data-bs-toggle="tooltip" data-bs-placement="top" title="Click any of the videos below to play it."></i></p>
+
+                <div class="list-group" style="width: 100%;">
+
+                    {% for v in context.course_videos_list %}
+                        <a href="{{ url_for('courses', course_id=context.c.course_id, video_id=v.id) }}" class="list-group-item list-group-item-action {% if v.id == context.v.id %}bg-secondary text-white{% endif %}">
+                            <i class="fas fa-video"></i> {{ v.title }}
+                        </a>
+                    {% endfor %}
+
+                </div>
+                
+                <!-- <a class="btn btn-block btn-secondary mt-3" href="{{ url_for('courses', course_id=context.c.course_id, video_id=context.c.videos[1].id) }}" id="next-button" role="button">NEXT VIDEO</a> -->
+            </div>
         </div>
     </div>
 </div>
+
+<script type="text/javascript">
+    $(function () {
+        $("[rel='tooltip']").tooltip();
+    });
+</script>
 
 {% endblock course_content %}
 

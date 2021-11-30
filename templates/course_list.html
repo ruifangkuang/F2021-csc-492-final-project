@@ -7,20 +7,21 @@
 <div class="row">
     <div class="col-lg-8 offset-lg-3">
             <div class="courses-list p-5">
-                <p>Educational content ranked from most to least potentially beneficial to you based on your input.</p>
+                <p>Educational content ranked from most to least potentially beneficial to you based on your <a href="{{ url_for('progress_dashboard') }} " class="link-dark">emotional assessments of yourself</a>.</p>
                 {% for course in context.courses %}
-                    <div class="course-card bg-light mb-2">
+                    <div class="card course-card bg-light mb-2">
                         <div class="clearfix">
                             <div class="card course-card-number lead pt-5 float-start">
                                 {{ loop.index0 + 1 }}
-                                <a class="stretched-link" href="{{ url_for('courses') }}"></a>
                             </div>
 
                             <div class="p-2">
                                 <h4 class="lead" style="font-size: 1.5rem;">{{ course.name }}</h4>
                                 <p>{{ course.description }}</p>
                             </div>
+
                         </div>
+                        <a class="stretched-link" href="{{ url_for('courses', course_id=course.course_id, video_id=course.videos[0].id ) }}"></a>
 
                     </div>
                 {% endfor %}
